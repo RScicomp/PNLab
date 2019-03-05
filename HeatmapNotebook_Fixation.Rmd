@@ -1,0 +1,45 @@
+---
+title: "Eye Tracking Study"
+output: html_notebook
+author: Richard Gao for PNLab
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+This Notebook will display a shiny app containing the aggregated heatmaps to all participants in the eye tracking study. Given that the Master file is contained in the correct folder. 
+
+Install Packages (If you've done it once shouldn't need to do again)
+
+```{r InstallPackages, warning=FALSE}
+source("All packages.R")
+```
+This chunk will clean the data and generate statistics in an excel file.
+*******************FILE PATH NOTE**********************
+The Master File is expected to be present in McGill/ExcelDocs in order for the data to be cleaned. Make sure if you've changed or altered the Master File to say you changed the master file. The code is specific to taking in data from the Master file excel format. If the Master File excel format deviates the code may crash.
+*******************RUN TIME NOTE***********************
+Depending on amount of data, cleaning data may take some time. Right now it takes approx 5-10 mins depending on your machine.
+*******************DEPENDENCIES************************
+CleanData.R. TestingTimeonAOI2.1.R
+```{r GetData, warning=FALSE}
+start_time <-Sys.time()
+source(file=paste(getwd(),"/CleanData_FixationPoints.R", sep = ""))
+source(file=paste(getwd(),"/TestingtimeonAOI2.1_FixationPointsR copy 2.R", sep = ""))
+end_time <-Sys.time() 
+#end_time-start_time
+```
+This is a work in progress to display the excel files from RStudio. You do not need to run this for the app to work.
+```{r OpenExcelFiles, warning=FALSE}
+#this is a work in progress to display the excel files from RStudio. You do not need to run this for the app to work.
+command <- paste("open", paste(getwd(), "/Master.xlsm", sep =""), sep = " ")
+system(command)
+```
+
+Open up the heatmap
+******************DEPENDENCIES***************************
+Heatmap8.0.R
+```{r DisplayApp}
+source(file=paste(getwd(),"/Heatmap8.0_FixationPoints.R", sep =""))
+shinyApp(ui = ui, server = server)
+```
+
+
+
